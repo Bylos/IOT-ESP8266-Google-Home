@@ -55,7 +55,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
             # send command to ESP over websocket
             if self.rwebsocket== None:
                 print("Device is not connected!")
-				response = '\r\n'.join([
+                    response = '\r\n'.join([
                     'HTTP/1.1 200 OK',
                     'Content-Type: text/json',
                     '',
