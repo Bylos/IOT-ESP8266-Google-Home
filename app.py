@@ -40,7 +40,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
     async def http_handler(self, method, path, version):
         response = ''
         try:
-			print('Do we have a request ?')
+            print('Do we have a request ?')
             googleRequest = self.reader._buffer.decode('utf-8')
             googleRequestJson = json.loads(googleRequest)
 
