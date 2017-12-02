@@ -59,7 +59,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
                     'HTTP/1.1 200 OK',
                     'Content-Type: text/json',
                     '',
-                    'bla bla bla bla',
+                    '{"speech": "bla bla bla", "displayText": "bla bla bla"}',
                 ])
                 return
             await self.rwebsocket.send(json.dumps(ESPparameters))
