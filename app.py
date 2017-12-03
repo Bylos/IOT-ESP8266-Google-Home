@@ -41,7 +41,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
         response = ''
         try:
             print('Do we have a request ?')
-			response = '\r\n'.join([
+            response = '\r\n'.join([
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/json',
                 '',
