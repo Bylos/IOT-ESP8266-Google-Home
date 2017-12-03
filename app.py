@@ -9,8 +9,11 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
     rddata = None
     async def handler(self):
         try:
-            request_line, headers = await websockets.http.read_message(self.reader)
-            method, path, version = request_line[:-2].decode().split(None, 2)
+            #request_line, headers = await websockets.http.read_headers(self.reader)
+            request_line = await websockets.http.read_line(self.reader)
+            method, path, version = request_line[:-2].split(b' ', 2)
+            headers =  await websockets.http.read_headers(self.reader)
+			#method, path, version = request_line[:-2].decode().split(None, 2)
             #websockets.accept()
         except Exception as e:
             print(e.args)
@@ -41,14 +44,6 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
         response = ''
         try:
             print('Do we have a request ?')
-            response = '\r\n'.join([
-                'HTTP/1.1 200 OK',
-                'Content-Type: text/json',
-                '',
-                '{"speech": "bla bla bla", "displayText": "bla bla bla"}',
-            ])
-            self.writer.write(response.encode())
-            return
             googleRequest = self.reader._buffer.decode('utf-8')
             print(googleRequest)
             googleRequestJson = json.loads(googleRequest)
