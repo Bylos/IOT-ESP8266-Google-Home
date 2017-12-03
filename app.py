@@ -41,6 +41,14 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
         response = ''
         try:
             print('Do we have a request ?')
+			response = '\r\n'.join([
+                'HTTP/1.1 200 OK',
+                'Content-Type: text/json',
+                '',
+                '{"speech": "bla bla bla", "displayText": "bla bla bla"}',
+            ])
+            self.writer.write(response.encode())
+            return
             googleRequest = self.reader._buffer.decode('utf-8')
             print(googleRequest)
             googleRequestJson = json.loads(googleRequest)
