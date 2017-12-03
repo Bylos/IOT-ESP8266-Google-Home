@@ -44,7 +44,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
             googleRequest = self.reader._buffer.decode('utf-8')
             print(googleRequest)
             googleRequestJson = json.loads(googleRequest)
-
+            print('still going')
             #{"location": "living", "state": "on", "device": "lights"}
             if 'what' in googleRequestJson['result']['resolvedQuery']:
                 ESPparameters = googleRequestJson['result']['parameters']
@@ -61,6 +61,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
                     '',
                     '{"speech": "bla bla bla", "displayText": "bla bla bla"}',
                 ])
+                self.writer.write(response.encode())
                 return
             await self.rwebsocket.send(json.dumps(ESPparameters))
 
