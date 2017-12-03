@@ -10,6 +10,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
     async def handler(self):
         try:
             #request_line, headers = await websockets.http.read_headers(self.reader)
+            print(len(self.reader._buffer))
             request_line = await websockets.http.read_line(self.reader)
             method, path, version = request_line[:-2].split(b' ', 2)
             headers =  await websockets.http.read_headers(self.reader)
@@ -31,7 +32,6 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
             return await super(HttpWSSProtocol, self).handler()
         else:
             try:
-                print(len(self.reader._buffer))
                 return await self.http_handler(method, path, version)
             except Exception as e:
                 print(e)
@@ -44,12 +44,8 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
     async def http_handler(self, method, path, version):
         response = ''
         try:
-            print('Do we have a request ?')
-            print(len(self.reader._buffer))
             googleRequest = self.reader._buffer.decode('utf-8')
-            print(googleRequest)
             googleRequestJson = json.loads(googleRequest)
-            print('still going')
             #{"location": "living", "state": "on", "device": "lights"}
             if 'what' in googleRequestJson['result']['resolvedQuery']:
                 ESPparameters = googleRequestJson['result']['parameters']
